@@ -1,0 +1,48 @@
+function nameGenerator() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet(); 
+  let sheet = ss.getSheetByName('Sheet1');
+  let nameRange = sheet.getRange("I3:I202"); 
+
+  let names = nameRange.getValues(); 
+
+  // Logger.log(names.length); 
+  // Logger.log(names); 
+  // Logger.log(names[5][0])
+
+  // GET INPUT FROM USER 
+  let ui = SpreadsheetApp.getUi(); 
+  let numberInput = ui.prompt("How many names do you need?");
+  // console.log(numberInput) ⬅ maybe show this to show how user input is received
+
+  // NEED TO GET TEXT FROM RESPONSE 
+  let numberString = numberInput.getResponseText(); 
+  console.log("numberString: ", numberString); 
+  console.log("numberString Type: ", typeof numberString); 
+  
+  // CONVERT STRING TO INTEGER SO WE CAN USE IT 
+  let number = parseInt(numberString); 
+  console.log("number Type: ", typeof number);
+  console.log("number is: ", number);
+
+  // GET RANGE OF ACTIVE CELL 
+  let activeCellRow = sheet.getActiveCell().getRow(); 
+  let activeCellCol = sheet.getActiveCell().getColumn(); 
+  
+  //sheet.getRange(activeCellRow,activeCellCol).setBackground('red'); ⬅ THIS IS TO TEST ACTIVE CELL ID
+
+  // GENERATE RANDOM NUMBERS
+  let randomNumbers = []; 
+  for (var i = 0; i < number; ++i) {
+      randomNumbers.push([Math.floor((Math.random()*names.length)+1)]);
+  }; 
+
+  // console.log(randomNumbers);   ⬅ THIS WORKS 
+
+  // LETS GENERATE SOME RANDOM NUMBERS TO GET RANDOM NAMES
+  for (var i = 0; i <= number; i++ ) {
+    let x = randomNumbers.pop(); 
+    console.log(x); 
+    // sheet.getRange(activeCellRow+i,activeCellCol).setValue(names[randomNumbers.pop()][0]);
+    sheet.getRange(activeCellRow+i,activeCellCol).setValue(names[x][0]);
+  }
+}
